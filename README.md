@@ -1,5 +1,5 @@
 # lab-laravel-react-phpunit-cypress
-Project Backend in Laravel and PhpUnit , Frontend : React, Storeon, Cypress
+Project Backend in Laravel, JWT for token and PhpUnit , Frontend : React, Storeon, Cypress
 
 # Mount Backend Project
 
