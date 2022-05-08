@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\FileZipped;
 use App\Models\FilesUser;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -50,6 +51,8 @@ class ProcessFile implements ShouldQueue
             $this->fileUser->path_zip = '/zip/'.$zipFileName;
             $this->fileUser->status = 'Compressed';
             $this->fileUser->save();
+
+            event(new FileZipped($this->fileUser));
         }
     }
 }

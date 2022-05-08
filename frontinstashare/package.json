@@ -47,6 +47,8 @@
     ]
   },
   "devDependencies": {
-    "cypress-file-upload": "^5.0.8"
+    "cypress-file-upload": "^5.0.8",
+    "laravel-echo": "^1.11.7",
+    "pusher-js": "^7.1.0-beta"
   }
 }

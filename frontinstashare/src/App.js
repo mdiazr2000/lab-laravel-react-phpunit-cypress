@@ -14,7 +14,6 @@ import BootstrapNavbar from "./components/header/navBar";
 import React from "react";
 
 function App() {
-
   return (
       <StoreContext.Provider value={store}>
       <div className="App">

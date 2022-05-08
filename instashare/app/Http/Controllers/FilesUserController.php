@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FileZipped;
 use App\Http\Requests\UploadFileRequest;
 use App\Jobs\ProcessFile;
 use App\Models\FilesUser;
@@ -52,6 +53,7 @@ class FilesUserController extends Controller
 
             // Run Job
             dispatch(new ProcessFile($save));
+           // event(new FileZipped($save));
 
             return response()->json([
                 'success' => true,

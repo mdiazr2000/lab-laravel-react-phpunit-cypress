@@ -23,3 +23,8 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 
 Check test in cypress
 ### `npx cypress open`
+
+
+For install listen Laravel echo
+### `npm install --save-dev laravel-echo pusher-js`
+

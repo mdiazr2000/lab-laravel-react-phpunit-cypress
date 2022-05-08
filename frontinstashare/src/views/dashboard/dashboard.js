@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {getFilesByUserEndpoint, getUploadEndpoint, API_ENDPOINT, getUpdateFileNameEndpoint} from "../../core/api/endpoints";
+import {getFilesByUserEndpoint, getUploadEndpoint, API_ENDPOINT, BACKEND_URL, getUpdateFileNameEndpoint} from "../../core/api/endpoints";
 import {PostUploadRequest, GetRequest, PutRequest, PostRequest} from "../../core/api/api-request";
 import { useStoreon } from 'storeon/react';
 import ErrorView from "../../components/error/errorview";
@@ -7,6 +7,9 @@ import NotificationView from "../../components/notification/notification";
 import "./dasboard.css";
 import { Container,Row,Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
+
+import Echo from "laravel-echo"
+import Pusher from "pusher-js";
 
 export default function Dashboard() {
 
@@ -20,6 +23,38 @@ export default function Dashboard() {
 
     const [selectedItem, setSelectedItem] = useState(null);
     const [newName, setNewName] = useState(null);
+
+    const options = {
+        broadcaster: "pusher",
+        key: "123456_key",
+        cluster: "mt1",
+        forceTLS: false,
+        encrypted: false,
+        wsHost: '127.0.0.1',
+        wsPort: 6001,
+        //authEndpoint is your apiUrl + /broadcasting/auth
+        authEndpoint: BACKEND_URL + "/broadcasting/auth",
+        // As I'm using JWT tokens, I need to manually set up the headers.
+        auth: {
+            headers: {
+                Authorization: "Bearer " + auth.accessToken,
+                Accept: "application/json"
+            }
+        }
+    };
+
+    const echo = new Echo(options);
+
+
+
+    useEffect(() => {
+        echo.private(`fileszipped.`+ auth.email)
+            .listen('FileZipped', (e) => {
+                console.log(e.fileUser.name);
+                setMessage(e.fileUser.name + ' is ready for download!!');
+                getAllFilesUser()
+            });
+    }, [])
 
     useEffect(() => {
         getAllFilesUser();
@@ -57,14 +92,14 @@ export default function Dashboard() {
     const uploadFile = async () => {
         const data = new FormData()
         data.append('file', fileSelected)
-        console.log(fileSelected);
+        // console.log(fileSelected);
         let url = getUploadEndpoint();
 
         const result = await PostUploadRequest(url , data, auth.accessToken);
         result.status === 401 && navigate('/');
         (result && result.status !== 200) && setError(result.data.error);
-        (result && result.status === 200) && setMessage(result.data.message);
-        (result && result.status === 200) && getAllFilesUser();
+       // (result && result.status === 200) && setMessage(result.data.message);
+       // (result && result.status === 200) && getAllFilesUser();
     }
 
 

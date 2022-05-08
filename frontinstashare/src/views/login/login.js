@@ -31,7 +31,11 @@ const LoginUser = () => {
         result.status !== '200' && setError(result.data.error);
 
         result.status == '200'
-        && dispatch('addToken', result.data.access_token);
+        && dispatch('addToken',
+            {
+                token: result.data.access_token,
+                email: email
+            });
 
         auth.accessToken !== undefined && navigate('/dashboard');
 
