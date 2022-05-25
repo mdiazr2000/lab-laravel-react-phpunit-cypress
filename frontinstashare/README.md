@@ -28,3 +28,41 @@ Check test in cypress
 For install listen Laravel echo
 ### `npm install --save-dev laravel-echo pusher-js`
 
+Then for suscribe to an existing channel
+
+In the component when you want to add this
+
+If I use json web tokens for security we need to pass the headers the token
+the authEndpoint is the url_of_server/api/broadcasting/auth (in this case because I put the url under api middleware)
+
+const options = {
+                    broadcaster: "pusher",
+                    key: "123456_key",
+                    cluster: "mt1",
+                    forceTLS: false,
+                    encrypted: false,
+                    wsHost: '127.0.0.1',
+                    wsPort: 6001,
+                    //authEndpoint is your apiUrl + /broadcasting/auth
+                    authEndpoint: "http://127.0.0.1:8000/api/broadcasting/auth",
+                    // As I'm using JWT tokens, I need to manually set up the headers.
+                    auth: {
+                    headers: {
+                    Authorization: "Bearer " + auth.accessToken,
+                    Accept: "application/json"
+                    } 
+        }
+    };
+
+    const echo = new Echo(options);
+
+Then call in function the listen to the channel
+
+useEffect(() => {
+echo.private(`fileszipped.`+ auth.email)
+            .listen('FileZipped', (e) => {
+                    console.log(e.fileUser.name);
+                    setMessage(e.fileUser.name + ' is ready for download!!');
+            });
+        }, [])
+
