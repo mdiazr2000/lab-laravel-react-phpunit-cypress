@@ -8,3 +8,4 @@ export const getUploadEndpoint = () => `${API_ENDPOINT}/upload`;
 export const getDownloadEndpoint = () => `${API_ENDPOINT}/downloadfile`;
 export const getFilesByUserEndpoint = (tye) => `${API_ENDPOINT}/filesByUser`;
 export const getUpdateFileNameEndpoint = (id) => `${API_ENDPOINT}/updateFile/${id}`;
+export const getUserAuthenticatedEndpoint = () => `${API_ENDPOINT}/me`;

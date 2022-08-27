@@ -6,6 +6,12 @@ php artisan serve
 
 php artisan queue:listen
 
+For running unit test
+.\vendor\bin\phpunit
+
+Start the server For websocket
+php artisan websockets:serve
+
 For websocket
 
 Laravel WebSockets can be installed via composer:

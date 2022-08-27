@@ -45,10 +45,8 @@ export default function Dashboard() {
 
     const echo = new Echo(options);
 
-
-
     useEffect(() => {
-        echo.private(`fileszipped.`+ auth.email)
+        echo.private(`fileszipped.`+ auth.id)
             .listen('FileZipped', (e) => {
                 console.log(e.fileUser.name);
                 setMessage(e.fileUser.name + ' is ready for download!!');

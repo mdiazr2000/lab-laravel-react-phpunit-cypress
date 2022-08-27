@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './login.css';
-import { PostLoginRequest } from "../../core/api/api-request";
-import {getLoginEndpoint} from "../../core/api/endpoints";
+import {GetRequest, PostLoginRequest, PostRequest} from "../../core/api/api-request";
+import {getLoginEndpoint, getUserAuthenticatedEndpoint} from "../../core/api/endpoints";
 import {PostWithoutTokenRequest} from "../../core/api/api-request";
 
 import { useStoreon } from 'storeon/react';
@@ -9,7 +9,7 @@ import { useStoreon } from 'storeon/react';
 import { useNavigate } from "react-router-dom";
 import ErrorView from "../../components/error/errorview";
 
-
+import axios from "axios";
 
 const LoginUser = () => {
 
@@ -30,14 +30,23 @@ const LoginUser = () => {
         });
         result.status !== '200' && setError(result.data.error);
 
-        result.status == '200'
-        && dispatch('addToken',
-            {
-                token: result.data.access_token,
-                email: email
-            });
+        if (result.status == '200' && result.data.access_token !== undefined) {
+            const urlMe = getUserAuthenticatedEndpoint();
 
-        auth.accessToken !== undefined && navigate('/dashboard');
+            const resultMe = await PostRequest(urlMe ,null, result.data.access_token);
+
+            if (resultMe.status == '200') {
+                dispatch('addToken',
+                    {
+                        token: result.data.access_token,
+                        email: email,
+                        id: resultMe.data.id
+                    })
+                navigate('/dashboard')
+            }
+
+        }
+
 
     }
 

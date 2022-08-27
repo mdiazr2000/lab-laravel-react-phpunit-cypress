@@ -22,6 +22,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### `npm run build`
 
 Check test in cypress
+npm install cypress
 ### `npx cypress open`
 
 

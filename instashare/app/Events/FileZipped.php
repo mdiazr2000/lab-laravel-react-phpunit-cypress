@@ -12,8 +12,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class FileZipped implements ShouldBroadcast
-{
+class FileZipped implements ShouldBroadcast {
+
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
@@ -40,6 +40,6 @@ class FileZipped implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('fileszipped.'.$this->fileUser->user->email);
+        return new PrivateChannel('fileszipped.'.$this->fileUser->user->id);
     }
 }

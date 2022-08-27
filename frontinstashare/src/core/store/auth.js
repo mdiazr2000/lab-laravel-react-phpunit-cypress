@@ -5,6 +5,7 @@ const auth = (store) => {
     auth: {
       accessToken: '',
       email: '',
+      id: 0,
     }
   }));
   store.on('addToken', ({ auth }, data) => {
@@ -12,6 +13,7 @@ const auth = (store) => {
       auth: {
         accessToken: data.token,
         email: data.email,
+        id: data.id,
       }
     }
   });
@@ -20,6 +22,7 @@ const auth = (store) => {
       auth: {
         accessToken: '',
         email: '',
+        id : 0,
       }
     }
   });
